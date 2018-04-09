@@ -1,86 +1,84 @@
-// BrowserRouter is the router implementation for HTML5 browsers (vs Native).
-// Link is your replacement for anchor tags.
-// Route is the conditionally shown component based on matching a path to a URL.
-// Switch returns only the first matching route rather than all matching routes.
-import {
-  BrowserRouter as Router,
-  Link,
-  Route,
-  Switch,
-} from 'react-router-dom';
-import React from 'react';
+/*---------- https://reacttraining.com/react-router/web/example/basic -----------*/
 
-const Home = () => <h1>Home</h1>;
-const About = () => <h1>About</h1>;
+import React from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import logo from './logo.svg';
+import './App.css';
 
-// We give each route either a target `component`, or we can send functions in `render` or `children` 
-// that return valid nodes. `children` always returns the given node whether there is a match or not.
 const App = () => (
   <Router>
+
     <div>
-      <Link to="/">Home</Link>{' '}
-      <Link to={{pathname: '/about'}}>About</Link>{' '}
-      <Link to="/contact">Contact</Link>
-      
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/about" component={About} />
-        <Route
-          path="/contact"
-          render={() => <h1>Contact Us</h1>} />
-        <Route path="/blog" children={({match}) => (
-          <li className={match ? 'active' : ''}>
-            <Link to="/blog">Blog</Link>
-          </li>)} />
-        <Route render={() => <h1>Page not found</h1>} />
-      </Switch>
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1 className="App-title">Welcome to React</h1>
+        </header>
+        <p className="App-intro">
+          To get started, edit <code>src/App.js</code> and save to reload.
+          </p>
+      </div>
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/about">About</Link>
+        </li>
+        <li>
+          <Link to="/topics">Topics</Link>
+        </li>
+      </ul>
+
+      <hr />
+
+      <Route exact path="/" component={Home} />
+      <Route path="/about" component={About} />
+      <Route path="/topics" component={Topics} />
     </div>
   </Router>
 );
 
+const Home = () => (
+  <div>
+    <h2>Home</h2>
+  </div>
+);
+
+const About = () => (
+  <div>
+    <h2>About</h2>
+  </div>
+);
+
+const Topics = ({ match }) => (
+  <div>
+    <h2>Topics</h2>
+    <ul>
+      <li>
+        <Link to={`${match.url}/rendering`}>Rendering with React</Link>
+      </li>
+      <li>
+        <Link to={`${match.url}/components`}>Components</Link>
+      </li>
+      <li>
+        <Link to={`${match.url}/props-v-state`}>Props v. State</Link>
+      </li>
+    </ul>
+
+    <Route path={`${match.url}/:topicId`} component={Topic} />
+    <Route
+      exact
+      path={match.url}
+      render={() => <h3>Please select a topic.</h3>}
+    />
+  </div>
+);
+
+const Topic = ({ match }) => (
+  <div>
+    <h3>{match.params.topicId}</h3>
+  </div>
+);
+
 export default App;
-
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import { BrowserRouter as Router, Route } from 'react-router-dom';
-// // import { Title, List } from './components/App';
-// import { Title/*, List*/ } from './components/App';
-// import './index.css';
-// ReactDOM.render(
-//   <Router>
-//       <div>
-//           console.log(Title);
-
-//         <Route path="/list" component={Title} /> }
-//       </div>
-//   </Router>,
-//   document.getElementById('app')
-// )
-
-// import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
-// const Title = () => {
-//   return (
-//       <div className="title">
-//         <h1>React Router demo</h1>
-//         <Link to="/list"><button>Show the List</button></Link>
-//       </div>
-//   )
-// }
-// const List = () => {
-//   return (
-//     <div className="nav">
-//       <ul>
-//         <li>list item</li>
-//         <li>list item</li>
-//       </ul>
-//       <Link to="/"><button>Back Home</button></Link>
-//     </div>
-//   )
-// }
-// // module.exports = {
-// //   Title,
-// //   List
-// // };
-
-// export default List;
