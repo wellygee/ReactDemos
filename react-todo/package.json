@@ -28,7 +28,7 @@
   "dependencies": {
     "body-parser": "^1.15.0",
     "classnames": "^2.2.3",
-    "express": "^4.13.4",
+    "express": "^4.17.3",
     "file-loader": "^0.8.5",
     "imports-loader": "^0.6.5",
     "jquery": "^2.2.2",
